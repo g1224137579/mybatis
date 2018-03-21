@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+
+  <!-- ID statementId -->
+  <select id="findUserById" parameterType="java.lang.Integer" resultType="user">
+    select * from user where id = #{id}
+  </select>
+
+  <insert id="insertUser" parameterType="cn.itcast.mybatis.pojo.User">
+    <selectKey keyProperty="id" resultType="int" order="AFTER">
+      <!-- 返回的是当前事务最后一个主键id -->
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into user(username,birthday,sex,address) values
+    (#{username},#{birthday},#{sex},#{address})
+  </insert>
+
+  <!-- <insert id="insertUserList" parameterType="java.util.List"> <foreach collection="list" 
+    item="item"> insert into ${item.tablename}(username,birthday,sex,address) values(#{item.username},#{item.birthday},#{item.sex},#{item.address}); 
+    </foreach> </insert> -->
+
+  <!-- <insert id="insertUserList" parameterType="java.util.List"> insert into user(username,birthday,sex,address) 
+    <foreach collection="list" item="item" separator="union all"> (#{item.username},#{item.birthday},#{item.sex},#{item.address}) 
+    </foreach> </insert> -->
+
+</mapper>
